@@ -34,7 +34,8 @@
         "commands",
         "chat:write",
         "chat:write.public",
-        "im:write"
+        "im:write",
+        "users:read"
       ]
     }
   }
