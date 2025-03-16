@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Box, Button, Container, TextField, Typography, Paper } from '@mui/material';
+import { Box, Button, TextField, Typography, Paper } from '@mui/material';
 
 export default function Login() {
   const [password, setPassword] = useState('');
@@ -23,73 +23,75 @@ export default function Login() {
     <Box
       sx={{
         minHeight: '100vh',
+        width: '100vw',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#f5f5f5',
       }}
     >
-      <Container component="main" maxWidth="xs">
-        <Paper
-          elevation={3}
+      <Paper
+        elevation={3}
+        sx={{
+          width: '100%',
+          maxWidth: '400px',
+          mx: 2,
+          p: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          borderRadius: 2,
+        }}
+      >
+        <Typography
+          component="h1"
+          variant="h5"
           sx={{
-            p: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            backgroundColor: 'white',
-            borderRadius: 2,
+            mb: 3,
+            fontWeight: 'bold',
+            color: '#1976d2',
           }}
         >
-          <Typography
-            component="h1"
-            variant="h5"
+          Botek Dashboard Login
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            width: '100%',
+          }}
+        >
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            error={!!error}
+            helperText={error}
             sx={{
               mb: 3,
-              fontWeight: 'bold',
-              color: '#1976d2',
             }}
-          >
-            Botek Dashboard Login
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
             sx={{
-              width: '100%',
+              py: 1.5,
+              fontWeight: 'bold',
+              fontSize: '1rem',
             }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={!!error}
-              helperText={error}
-              sx={{
-                mb: 3,
-              }}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                py: 1.5,
-                fontWeight: 'bold',
-                fontSize: '1rem',
-              }}
-            >
-              Sign In
-            </Button>
-          </Box>
-        </Paper>
-      </Container>
+            Sign In
+          </Button>
+        </Box>
+      </Paper>
     </Box>
   );
 } 
