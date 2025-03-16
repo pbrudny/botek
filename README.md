@@ -1,16 +1,22 @@
-# Botek - Slack Bot
+# Botek - Educational Slack Bot with Dashboard
 
-A Slack bot built with Node.js and the Slack Bolt framework, integrated with Supabase for command logging. The bot helps manage grades and extra points for users.
+A comprehensive system for managing student grades and extra points through Slack commands, with a web-based dashboard for monitoring and analysis.
 
-## Features
+## System Components
 
-- Command logging to Supabase database
-- Grade assignment and notification
-- Extra points management
-- Echo functionality
-- Help command
+### 1. Slack Bot (Backend)
+- Command processing for grades and extra points
+- Direct message notifications
+- Command logging to Supabase
+- User lookup and verification
 
-## Available Commands
+### 2. Web Dashboard (Frontend)
+- Password-protected interface
+- Real-time student statistics
+- Command history tracking
+- Grade averages and extra points summary
+
+## Available Slack Commands
 
 - `/botek help` - Display help message with available commands
 - `/botek echo [message]` - Echo back your message
@@ -23,8 +29,31 @@ A Slack bot built with Node.js and the Slack Bolt framework, integrated with Sup
 - Node.js (v18 or higher)
 - A Slack workspace with admin privileges
 - A Supabase account and project
+- npm or yarn package manager
 
-## Setup
+## Project Structure
+
+```
+botek/
+├── src/                    # Backend source files
+│   ├── commands/          # Slack command handlers
+│   ├── config/           # Configuration files
+│   ├── services/         # Business logic services
+│   └── utils/            # Utility functions
+├── frontend/             # Frontend application
+│   ├── src/
+│   │   ├── components/   # React components
+│   │   ├── contexts/     # Context providers
+│   │   ├── pages/       # Page components
+│   │   └── config/      # Frontend configuration
+│   └── public/          # Static assets
+├── index.js             # Backend entry point
+└── README.md
+```
+
+## Setup Instructions
+
+### Backend Setup
 
 1. **Clone the repository**
    ```bash
@@ -38,7 +67,7 @@ A Slack bot built with Node.js and the Slack Bolt framework, integrated with Sup
    ```
 
 3. **Set up environment variables**
-   Create a `.env` file in the root directory with the following variables:
+   Create a `.env` file in the root directory:
    ```
    SLACK_BOT_TOKEN=your_slack_bot_token
    SLACK_SIGNING_SECRET=your_slack_signing_secret
@@ -48,64 +77,97 @@ A Slack bot built with Node.js and the Slack Bolt framework, integrated with Sup
    ```
 
 4. **Set up Supabase**
-   - Create a new table called `command_logs` with the following structure:
-     ```sql
-     create table command_logs (
-       id uuid default uuid_generate_v4() primary key,
-       user_id text not null,
-       user_name text not null,
-       command text not null,
-       text text,
-       channel_id text not null,
-       created_at timestamptz not null default now()
-     );
-     ```
+   Create a new table called `command_logs`:
+   ```sql
+   create table command_logs (
+     id uuid default uuid_generate_v4() primary key,
+     user_id text not null,
+     user_name text not null,
+     command text not null,
+     text text,
+     channel_id text not null,
+     created_at timestamptz not null default now()
+   );
+   ```
 
 5. **Start the bot**
    ```bash
    node index.js
    ```
 
+### Frontend Setup
+
+1. **Navigate to frontend directory**
+   ```bash
+   cd frontend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   Create a `.env` file in the frontend directory:
+   ```
+   VITE_SUPABASE_URL=your_supabase_project_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Access the dashboard**
+   - Open http://localhost:5173 in your browser
+   - Login with password: `AwesomeStudents!2025`
+
+## Dashboard Features
+
+- **User Statistics**
+  - Grade averages calculated from `/botek grade` commands
+  - Extra points accumulated from `/botek give extra` commands
+  - All statistics grouped by command recipients
+
+- **Command Logs**
+  - Complete history of all bot commands
+  - Timestamp and user information
+  - Filterable and sortable data
+
 ## Slack App Configuration
 
 1. Create a new Slack App at https://api.slack.com/apps
 2. Enable Socket Mode
-3. Add the following bot token scopes:
+3. Add bot token scopes:
    - `commands`
    - `chat:write`
    - `users:read`
    - `users:read.email`
-4. Create a slash command `/botek`
+4. Create slash command `/botek`
 5. Install the app to your workspace
 
-## Environment Variables
+## Security
 
-- `SLACK_BOT_TOKEN`: Your Slack bot user OAuth token
-- `SLACK_SIGNING_SECRET`: Your Slack app signing secret
-- `SLACK_APP_TOKEN`: Your Slack app-level token
-- `SUPABASE_URL`: Your Supabase project URL
-- `SUPABASE_ANON_KEY`: Your Supabase service role key (for database access)
-
-## Security Notes
-
-- Keep your `.env` file secure and never commit it to version control
-- The bot uses Supabase's Row Level Security (RLS) for database protection
-- All sensitive tokens should be kept confidential
+- Frontend access is protected by password
+- Supabase RLS policies protect data access
+- Environment variables for sensitive credentials
+- Secure command validation and processing
 
 ## Development
 
-The bot is built with:
+The project uses:
 - [@slack/bolt](https://www.npmjs.com/package/@slack/bolt) for Slack integration
 - [@supabase/supabase-js](https://www.npmjs.com/package/@supabase/supabase-js) for database operations
-- [dotenv](https://www.npmjs.com/package/dotenv) for environment variable management
+- [React](https://reactjs.org/) with [Vite](https://vitejs.dev/) for the frontend
+- [Material-UI](https://mui.com/) for UI components
 
 ## Error Handling
 
-The bot includes error handling for:
-- User lookup failures
-- Invalid command formats
-- Database operation errors
-- Invalid grade inputs
+- User lookup validation
+- Command format verification
+- Database operation error handling
+- Frontend authentication protection
 
 ## Contributing
 
@@ -113,4 +175,8 @@ The bot includes error handling for:
 2. Create your feature branch
 3. Commit your changes
 4. Push to the branch
-5. Create a new Pull Request 
+5. Create a new Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details. 
