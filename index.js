@@ -2,6 +2,36 @@
 require('dotenv').config();
 
 const { App } = require('@slack/bolt');
+const { createClient } = require('@supabase/supabase-js');
+
+// Initialize Supabase client
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
+
+// Function to log command to Supabase
+async function logCommandToSupabase(command) {
+  try {
+    const { data, error } = await supabase
+      .from('command_logs')
+      .insert([
+        {
+          user_id: command.user_id,
+          user_name: command.user_name,
+          command: command.command,
+          text: command.text,
+          channel_id: command.channel_id,
+          created_at: new Date().toISOString()
+        }
+      ]);
+
+    if (error) throw error;
+    console.log('Command logged successfully:', data);
+  } catch (error) {
+    console.error('Error logging command:', error);
+  }
+}
 
 // Initialize the app with your tokens
 const app = new App({
@@ -14,6 +44,9 @@ const app = new App({
 // Command: /botek
 app.command('/botek', async ({ command, ack, say, client }) => {
   await ack();
+
+  // Log command to Supabase
+  await logCommandToSupabase(command);
 
   console.log("Command received:", command); // Log the command for debugging
 
