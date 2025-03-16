@@ -1,71 +1,41 @@
 {
+  "_metadata": {
+    "major_version": 2,
+    "minor_version": 1
+  },
   "display_information": {
-    "name": "n8n"
+    "name": "Botek",
+    "description": "A bot that helps with grading and rewarding users",
+    "background_color": "#4A154B"
+  },
+  "settings": {
+    "socket_mode_enabled": true,
+    "interactivity": {
+      "is_enabled": true
+    }
   },
   "features": {
     "bot_user": {
-      "display_name": "n8n",
-      "always_online": false
+      "display_name": "Botek",
+      "always_online": true
     },
     "slash_commands": [
       {
-        "command": "/grade",
-        "description": "Give student a grade",
-        "should_escape": false
-      },
-      {
         "command": "/botek",
-        "description": "Start a rocket",
-        "usage_hint": "user",
+        "description": "Interact with Botek",
+        "usage_hint": "help, echo [message], grade @user [score] for [test], give extra to @user",
         "should_escape": false
       }
     ]
   },
   "oauth_config": {
     "scopes": {
-      "user": [
-        "channels:read",
-        "channels:write",
-        "chat:write",
-        "files:read",
-        "files:write",
-        "groups:read",
-        "im:read",
-        "mpim:read",
-        "reactions:read",
-        "reactions:write",
-        "stars:read",
-        "stars:write",
-        "usergroups:read",
-        "usergroups:write",
-        "users.profile:read",
-        "users.profile:write",
-        "users:read"
-      ],
       "bot": [
-        "channels:read",
+        "commands",
         "chat:write",
-        "files:read",
-        "groups:read",
-        "im:read",
-        "mpim:read",
-        "reactions:read",
-        "reactions:write",
-        "usergroups:read",
-        "usergroups:write",
-        "users.profile:read",
-        "users:read",
-        "incoming-webhook",
-        "commands"
+        "chat:write.public",
+        "im:write"
       ]
     }
-  },
-  "settings": {
-    "interactivity": {
-      "is_enabled": true
-    },
-    "org_deploy_enabled": false,
-    "socket_mode_enabled": true,
-    "token_rotation_enabled": false
   }
 }
